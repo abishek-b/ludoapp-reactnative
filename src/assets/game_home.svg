@@ -1,0 +1,6 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M104 101.5L3 2V202.5L104 1002Z" fill="#F44336" stroke="black"/>
+    <path d="M104 103L206 205L202 2L104 102Z" fill="#FF9800" stroke="black"/>
+    <path d="M104 102L2 203H202.5L101.5 102Z" fill="#2196F3" stroke="black"/>
+    <path d="M104 102L202.5 1L2 1L103 102Z" fill="#4CAF50" stroke="black"/>
+</svg>
