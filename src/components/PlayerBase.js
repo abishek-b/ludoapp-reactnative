@@ -1,18 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-
+import { connect } from 'react-redux';
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
+import {startPawn} from '../actions/playerActions';
 // import PawnBox from './PawnBox';
 const PlayerBase = props => {
-    // let image = null;
-    // if (props.playerColor == 'yellow') {
-    //     image = <Image source={require('../assets/pointeryellow.png')} style={styles.image} />
-    // }else if (props.playerColor == 'red') {
-    //     image = <Image source={require('../assets/pointerred.png')} style={styles.image} />
-    // }else if (props.playerColor == 'blue') {
-    //     image = <Image source={require('../assets/pointerblue.png')} style={styles.image} />
-    // }else if (props.playerColor == 'green') {
-    //     image = <Image source={require('../assets/pointergreen.png')} style={styles.image} />
-    // }
 
     let image = {
         blue: <Image source={require('../assets/pointerblue.png')} style={styles.image} />,
@@ -34,10 +25,16 @@ const PlayerBase = props => {
             borderWidth: 2,
         }
     }
-    props.pawn.map((value, index) => {
-        pawns[index] = [value == 0 ? hightlight : {}, value == 0 ? image[props.playerColor] : null];
+    const getImageContainer = (image, index) => {
+        return (<TouchableHighlight style={{ flex: 1 }} onPress={props.startPawn.bind(this, index, props.playerColor)} >
+            {image}
+        </TouchableHighlight>)
+    }
+    props.pawn.pawn_pos[props.playerColor].map((value, index) => {
+        pawns[index] = [value == 0 ? hightlight : {}, value == 0 ? getImageContainer(image[props.playerColor], index)
+            : null];
     })
-    // console.log(pawnsHighlight)    
+ 
 
 
     return (
@@ -109,5 +106,20 @@ const styles = StyleSheet.create({
 
 })
 
+const mapStateToProps = state => {
+    // console.log(state)
+    return {
+        pawn: state.pawn
+    }
+}
 
-export default PlayerBase;
+const mapDispatchToProps = dispatch => {
+    return {
+        startPawn: (index, color) => {
+            dispatch(startPawn(index, color))
+            
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerBase);

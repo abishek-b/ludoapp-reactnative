@@ -3,12 +3,23 @@ import { connect } from 'react-redux';
 import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 const Dice = props => {
-    // const dice_number = 5;
-    // const rollDie
+
+    let highlight = {}
+    if(props.dice.ready_to_roll){
+        highlight = {
+            backgroundColor : props.dice.current_pawn
+        }
+    }
+    const rollDice = ()=>{
+        if(props.dice.ready_to_roll){
+            props.rollDice()
+        }
+    }
+
     return (
         <View style={styles.dice_container}>
-            <TouchableHighlight onPress={props.rollDice}>
-                <View style={styles.dice} >
+            <TouchableHighlight onPress={rollDice}>
+                <View style={{...styles.dice, ...highlight }} >
                     <Text style={styles.dice_number}>{props.dice.dice_value}</Text>
                 </View>
             </TouchableHighlight>
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     // console.log(state)
     return {
-        dice: state.rollDice
+        dice: state.pawn
     }
 }
 
