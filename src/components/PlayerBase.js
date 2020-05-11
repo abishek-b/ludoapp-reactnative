@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, Image, TouchableHighlight } from 'react-native';
 import {startPawn} from '../actions/playerActions';
 // import PawnBox from './PawnBox';
+
+import {images} from '../config/images'
 const PlayerBase = props => {
 
-    let image = {
-        blue: <Image source={require('../assets/pointerblue.png')} style={styles.image} />,
-        red: <Image source={require('../assets/pointerred.png')} style={styles.image} />,
-        green: <Image source={require('../assets/pointergreen.png')} style={styles.image} />,
-        yellow: <Image source={require('../assets/pointeryellow.png')} style={styles.image} />,
-    }
+    
 
     let hightlight = {}
     let pawns = [
@@ -31,7 +28,7 @@ const PlayerBase = props => {
         </TouchableHighlight>)
     }
     props.pawn.pawn_pos[props.playerColor].map((value, index) => {
-        pawns[index] = [value == 0 ? hightlight : {}, value == 0 ? getImageContainer(image[props.playerColor], index)
+        pawns[index] = [value == 0 ? hightlight : {}, value == 0 ? getImageContainer(images[props.playerColor], index)
             : null];
     })
  
@@ -76,7 +73,8 @@ const styles = StyleSheet.create({
     pawn_box: {
         width: '25%',
         aspectRatio: 1,
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+        elevation : 5
     },
     box: {
         flex: 1,

@@ -17,6 +17,18 @@ const Board = props => {
         blue: 'red', red: 'green', green: 'yellow', yellow: 'blue',
     }
 
+    if(!props.pawn.play_zone.hasOwnProperty('blue')){
+        let play_zone = {}
+        Object.keys(hightlightHome).forEach(color=>{
+            var i = 0;
+            play_zone[color] = [];   
+            while(i<18){
+                play_zone[color].push([]);
+                i += 1;
+            } 
+        })
+        props.initPlayZone(play_zone)
+    }
 
 
     const canPlayerMove = () => {
@@ -40,17 +52,17 @@ const Board = props => {
         <View style={styles.pawn_home}>
             <View style={{ flexDirection: 'row' }}>
                 <PlayerBase width="40%" color={Color.red} playerColor="red" hightlight={hightlightHome.red} />
-                <PawnMoveSpace aspectRatio={0.5} width="20%" color={Color.green} position="top" />
+                <PawnMoveSpace aspectRatio={0.5} zone="green" width="20%" color={Color.green} position="top" />
                 <PlayerBase width="40%" color={Color.green} playerColor="green" hightlight={hightlightHome.green} pawn={props.pawn.pawn_pos.green} />
             </View>
             <View style={{ flexDirection: 'row' }}>
-                <PawnMoveSpace aspectRatio={2} width="40%" color={Color.red} position="left" />
+                <PawnMoveSpace aspectRatio={2} zone="red" width="40%" color={Color.red} position="left" />
                 <View width="20%" style={{ flex: 1, aspectRatio: 1 }}></View>
-                <PawnMoveSpace aspectRatio={2} width="40%" color={Color.yellow} position="right" />
+                <PawnMoveSpace aspectRatio={2} zone="yellow" width="40%" color={Color.yellow} position="right" />
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <PlayerBase width="40%" color={Color.blue} playerColor="blue" hightlight={hightlightHome.blue} pawn={props.pawn.pawn_pos.blue} />
-                <PawnMoveSpace aspectRatio={0.5} width="20%" color={Color.blue} position="bottom" />
+                <PawnMoveSpace aspectRatio={0.5} zone="blue" width="20%" color={Color.blue} position="bottom" />
                 <PlayerBase width="40%" color={Color.yellow} playerColor="yellow" hightlight={hightlightHome.yellow} pawn={props.pawn.pawn_pos.yellow} />
             </View>
         </View>
@@ -97,6 +109,14 @@ const mapDispatchToProps = dispatch => {
                     }
                 }
             )
+        },
+        initPlayZone: play_zone=>{
+            dispatch({
+                type : 'INIT_PLAY_ZONE',
+                payload:{
+                    play_zone
+                }
+            })
         }
     }
 }

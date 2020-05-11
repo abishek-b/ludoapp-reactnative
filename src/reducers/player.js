@@ -8,7 +8,8 @@ const initState = {
         red: [0, 0, 0, 0],
         green: [0, 0, 0, 0],
         yellow: [0, 0, 0, 0],
-    }
+    },
+    play_zone : {}
 }
 
 
@@ -29,7 +30,11 @@ const pawn = (state = initState, action) => {
         case 'START_PAWN':
             const pawn_pos = { ...state.pawn_pos }
             pawn_pos[action.payload.color][action.payload.index] = 1
-            return { ...state, pawn_pos: pawn_pos , ready_to_roll: true }
+            const play_zone = { ...state.play_zone}
+            play_zone[action.payload.color][13].push([action.payload.color])
+            return { ...state, pawn_pos: pawn_pos , ready_to_roll: true, play_zone:play_zone }
+        case 'INIT_PLAY_ZONE':
+            return {...state, play_zone: action.payload.play_zone}
     }
 
 

@@ -1,33 +1,35 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
 
 import PlayBox from './PlayBox';
+import { images } from '../config/images'
 
-const PlayerBase = props => {
+const PawnMoveSpace = props => {
     let pawn_box = [
         [
-            { key: 6, type: 'common', next : 7 },
-            { key: 5, type: 'common', next : 6 },
-            { key: 4, type: 'safe', next : 5 },
-            { key: 3, type: 'common', next : 4 },
-            { key: 2, type: 'common', next : 3 },
-            { key: 1, type: 'common', next : 2 },
+            { key: 6, type: 'common', next: 7 },
+            { key: 5, type: 'common', next: 6 },
+            { key: 4, type: 'safe', next: 5 },
+            { key: 3, type: 'common', next: 4 },
+            { key: 2, type: 'common', next: 3 },
+            { key: 1, type: 'common', next: 2 },
         ],
         [
-            { key: 7, type: 'common' , next : 13},
-            { key: 8, type: 'player' , next : 8},
-            { key: 9, type: 'player' , next : 9},
-            { key: 10, type: 'player' , next : 10},
-            { key: 11, type: 'player' , next : 12},
-            { key: 12, type: 'player' , next : 0},
+            { key: 7, type: 'common', next: 13 },
+            { key: 8, type: 'player', next: 8 },
+            { key: 9, type: 'player', next: 9 },
+            { key: 10, type: 'player', next: 10 },
+            { key: 11, type: 'player', next: 12 },
+            { key: 12, type: 'player', next: 0 },
         ],
         [
-            { key: 13, type: 'common' , next : 14},
-            { key: 14, type: 'start' , next : 15},
-            { key: 15, type: 'common' , next : 16},
-            { key: 16, type: 'common' , next : 17},
-            { key: 17, type: 'common' , next : 18},
-            { key: 18, type: 'common' , next : 1},
+            { key: 13, type: 'common', next: 14 },
+            { key: 14, type: 'start', next: 15 },
+            { key: 15, type: 'common', next: 16 },
+            { key: 16, type: 'common', next: 17 },
+            { key: 17, type: 'common', next: 18 },
+            { key: 18, type: 'common', next: 1 },
         ],
     ]
 
@@ -49,6 +51,7 @@ const PlayerBase = props => {
             break;
     }
 
+
     return (
         <View style={{ ...styles.outer_box, aspectRatio: props.aspectRatio, width: props.width }}>
             {
@@ -57,9 +60,16 @@ const PlayerBase = props => {
                         <View key={index}>
                             {
                                 column.map(item => {
+                                    var pawns = props.pawn.play_zone[props.zone][item.key - 1]
+                                    // console.log(pawns)
                                     return (
                                         <PlayBox key={index + "-" + item.key} index={item.key} style={styles.pawn_box} type={item.type} color={props.color}>
-
+                                            {
+                                                pawns.map(pawn=>{
+                                                    return images[pawn[0]]
+                                                    
+                                                })
+                                            }
                                         </PlayBox>
                                     )
                                 })
@@ -109,4 +119,20 @@ const styles = StyleSheet.create({
 })
 
 
-export default PlayerBase;
+
+const mapStateToProps = state => {
+    return {
+        pawn: state.pawn
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        startPawn: (index, color) => {
+            dispatch(startPawn(index, color))
+
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PawnMoveSpace);
